@@ -1,0 +1,8 @@
+connections:
+  FOOPOSTGRES:
+    host: 'localhost'
+    database: 'foo'
+    user: 'postgres'
+    password: 'postgres'
+    driver: 'org.postgresql.Driver'
+cron: '0/1 * * * * ?'
