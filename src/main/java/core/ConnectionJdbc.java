@@ -10,7 +10,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.sql.DataSource;
-import java.io.IOException;
 
 @Dependent
 abstract public class ConnectionJdbc implements DatabaseConnection {
@@ -19,8 +18,8 @@ abstract public class ConnectionJdbc implements DatabaseConnection {
     private Connection connection;
 
     @Inject
-    public ConnectionJdbc(Env configuration) throws IOException {
-        this.configuration = configuration.getEnvFromFile();
+    public ConnectionJdbc(Env configuration) {
+        this.configuration = configuration.getConfiguration();
         this.connection = this.getConnectionFromEnv();
     }
 
@@ -37,10 +36,10 @@ abstract public class ConnectionJdbc implements DatabaseConnection {
         return dataSource;
     }
 
-    abstract public ConnectionType getType();
-
     private Connection getConnectionFromEnv() {
         return this.configuration.getConnections().get(this.getType());
     }
+
+    abstract public ConnectionType getType();
 
 }

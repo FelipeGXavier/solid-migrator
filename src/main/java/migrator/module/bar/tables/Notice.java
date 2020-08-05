@@ -1,6 +1,7 @@
 package migrator.module.bar.tables;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Timestamp;
@@ -11,8 +12,10 @@ public class Notice {
     private Long id;
     @JsonProperty("code")
     private String code;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonProperty("opening_date")
     private Timestamp openingDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonProperty("final_date")
     private Timestamp finalDate;
     @JsonProperty("object")

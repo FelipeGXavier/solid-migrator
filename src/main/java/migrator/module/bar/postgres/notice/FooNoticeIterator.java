@@ -21,6 +21,6 @@ public class FooNoticeIterator extends IteratorWrapper {
     }
 
     public String getDestination() {
-        return "edital";
+        return "enotice";
     }
 }

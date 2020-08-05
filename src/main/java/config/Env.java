@@ -12,15 +12,19 @@ import java.io.IOException;
 public class Env {
 
     private Configuration configuration;
-    private final String path = "src/main/resources/config.yaml";
+    private static final String PATH = "src/main/resources/config.yaml";
 
     public Env() throws IOException {
         this.configuration = this.getEnvFromFile();
     }
 
-    public Configuration getEnvFromFile() throws IOException {
-        File file = new File(this.path);
+    private Configuration getEnvFromFile() throws IOException {
+        File file = new File(PATH);
         ObjectMapper om = new ObjectMapper(new YAMLFactory());
         return om.readValue(file, Configuration.class);
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
     }
 }

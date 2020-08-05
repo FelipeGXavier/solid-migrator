@@ -31,7 +31,7 @@ public class FooNoticeRows implements DatabaseRows {
     }
 
     private List<Notice> selectDatabaseRows() throws SQLException {
-        String sql = "select * from tbedital where migrated = 0";
+        String sql = "select * from notice where migrated = 0";
         DataSource connection = this.connectionJdbc.getConnection();
         QueryRunner run = new QueryRunner(connection);
         ResultSetHandler<List<Notice>> noticeMapper = new BeanListHandler<>(Notice.class);

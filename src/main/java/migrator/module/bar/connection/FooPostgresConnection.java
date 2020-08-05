@@ -1,6 +1,5 @@
 package migrator.module.bar.connection;
 
-import config.Connection;
 import config.ConnectionType;
 import config.Env;
 import core.ConnectionJdbc;

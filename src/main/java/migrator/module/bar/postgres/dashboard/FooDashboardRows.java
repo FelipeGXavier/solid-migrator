@@ -3,7 +3,6 @@ package migrator.module.bar.postgres.dashboard;
 import core.ConnectionJdbc;
 import core.contracts.DatabaseRows;
 import migrator.module.bar.tables.Dashboard;
-import migrator.module.bar.tables.Notice;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -32,7 +31,7 @@ public class FooDashboardRows implements DatabaseRows {
     }
 
     private List<Dashboard> selectDatabaseRows() throws SQLException {
-        String sql = "select * from tbdashboard where migrated = false";
+        String sql = "select * from dashboard where migrated = 0";
         DataSource connection = this.connectionJdbc.getConnection();
         QueryRunner run = new QueryRunner(connection);
         ResultSetHandler<List<Dashboard>> noticeMapper = new BeanListHandler<>(Dashboard.class);

@@ -1,19 +1,19 @@
 package config;
 
 import javax.enterprise.context.Dependent;
-import java.util.HashMap;
+import java.util.Map;
 
 @Dependent
 public class Configuration {
 
-    private HashMap<ConnectionType, Connection> connections;
+    private Map<ConnectionType, Connection> connections;
     private String cron;
 
-    public HashMap<ConnectionType, Connection> getConnections() {
+    public Map<ConnectionType, Connection> getConnections() {
         return connections;
     }
 
-    public void setConnections(HashMap<ConnectionType, Connection> connections) {
+    public void setConnections(Map<ConnectionType, Connection> connections) {
         this.connections = connections;
     }
 
