@@ -4,11 +4,9 @@ package config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import javax.enterprise.context.Dependent;
 import java.io.File;
 import java.io.IOException;
 
-@Dependent
 public class Env {
 
     private Configuration configuration;

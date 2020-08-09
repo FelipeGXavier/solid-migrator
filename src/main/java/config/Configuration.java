@@ -1,9 +1,7 @@
 package config;
 
-import javax.enterprise.context.Dependent;
 import java.util.Map;
 
-@Dependent
 public class Configuration {
 
     private Map<ConnectionType, Connection> connections;

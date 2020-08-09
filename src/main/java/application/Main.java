@@ -1,16 +1,15 @@
 package application;
 
-import migrator.Migrator;
 
-import javax.enterprise.inject.se.SeContainer;
-import javax.enterprise.inject.se.SeContainerInitializer;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import migrator.Migrator;
 
 public class Main {
 
     public static void main(String[] args) {
-        SeContainerInitializer containerInit = SeContainerInitializer.newInstance();
-        SeContainer container = containerInit.initialize();
-        container.select(Migrator.class).get().run();
+        Injector injector = Guice.createInjector(new BasicModule());
+        injector.getInstance(Migrator.class).run();
     }
 
 }

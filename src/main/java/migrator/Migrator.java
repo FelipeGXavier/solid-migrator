@@ -7,21 +7,17 @@ import core.IteratorWrapper;
 import core.MalformedDocument;
 import core.contracts.TableRefer;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.Iterator;
+import java.util.Set;
 
-@Dependent
 public class Migrator implements Runnable {
 
-    @Any
-    private Instance<IteratorWrapper> iterators;
+    private Set<IteratorWrapper> iterators;
     private ElasticConnection elasticConnection;
 
     @Inject
-    public Migrator(Instance<IteratorWrapper> iterators, Env env, ElasticConnection elasticConnection) {
+    public Migrator(Set<IteratorWrapper> iterators, Env env, ElasticConnection elasticConnection) {
         this.iterators = iterators;
         this.elasticConnection = elasticConnection;
     }
@@ -38,7 +34,8 @@ public class Migrator implements Runnable {
                         throw new MalformedDocument("Malformed document "+ table.getClass());
                     }
                     String json = objectMapper.writeValueAsString(table);
-                    this.elasticConnection.put(wrapper.getDestination(), table.getRefer(), json);
+                    System.out.println(json);
+                    //this.elasticConnection.put(wrapper.getDestination(), table.getRefer(), json);
                 }
                 catch(Exception e){
                     e.printStackTrace();

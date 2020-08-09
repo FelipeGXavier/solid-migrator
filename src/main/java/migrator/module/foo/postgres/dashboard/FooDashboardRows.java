@@ -8,7 +8,6 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.sql.DataSource;
@@ -16,7 +15,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-@Dependent
 @Named("fooDashboardRows")
 public class FooDashboardRows implements DatabaseRows {
 

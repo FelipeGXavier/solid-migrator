@@ -3,12 +3,10 @@ package migrator.module.foo.postgres.notice;
 import core.IteratorWrapper;
 import core.contracts.DatabaseRows;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.sql.SQLException;
 
-@Dependent
 public class FooNoticeIterator extends IteratorWrapper {
 
     @Inject

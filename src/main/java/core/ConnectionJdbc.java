@@ -7,11 +7,9 @@ import config.Env;
 import core.contracts.DatabaseConnection;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-@Dependent
 abstract public class ConnectionJdbc implements DatabaseConnection {
 
     protected Configuration configuration;

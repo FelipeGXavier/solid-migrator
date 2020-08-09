@@ -9,10 +9,8 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 
-import javax.enterprise.context.Dependent;
 import java.io.IOException;
 
-@Dependent
 public class ElasticConnection {
 
     private RestHighLevelClient client;
