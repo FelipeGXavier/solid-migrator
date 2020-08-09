@@ -1,4 +1,4 @@
-package migrator.module.bar.postgres.notice;
+package migrator.module.foo.postgres.dashboard;
 
 import core.IteratorWrapper;
 import core.contracts.DatabaseRows;
@@ -9,18 +9,18 @@ import javax.inject.Named;
 import java.sql.SQLException;
 
 @Dependent
-public class FooNoticeIterator extends IteratorWrapper {
+public class FooDashboardIterator extends IteratorWrapper {
 
     @Inject
-    public FooNoticeIterator(@Named("fooNoticeRows") DatabaseRows rows) throws SQLException {
+    public FooDashboardIterator(@Named("fooDashboardRows") DatabaseRows rows) throws SQLException {
         super(rows);
     }
 
     public String getOrigin() {
-        return "tbedital";
+        return "tbdashboard";
     }
 
     public String getDestination() {
-        return "enotice";
+        return "dashboard";
     }
 }

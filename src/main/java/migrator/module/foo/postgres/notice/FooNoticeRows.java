@@ -1,8 +1,9 @@
-package migrator.module.bar.postgres.dashboard;
+package migrator.module.foo.postgres.notice;
 
 import core.ConnectionJdbc;
 import core.contracts.DatabaseRows;
-import migrator.module.bar.tables.Dashboard;
+import core.contracts.TableRefer;
+import migrator.module.foo.tables.Notice;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -16,25 +17,27 @@ import java.util.Collection;
 import java.util.List;
 
 @Dependent
-@Named("fooDashboardRows")
-public class FooDashboardRows implements DatabaseRows {
+@Named("fooNoticeRows")
+public class FooNoticeRows implements DatabaseRows {
 
     private ConnectionJdbc connectionJdbc;
 
     @Inject
-    public FooDashboardRows(@Named("fooPostgres") ConnectionJdbc connectionJdbc){
+    public FooNoticeRows(@Named("fooPostgres") ConnectionJdbc connectionJdbc){
         this.connectionJdbc = connectionJdbc;
     }
 
-    public Collection<?> getDatabaseRows() throws SQLException {
+    public Collection<? extends TableRefer> getDatabaseRows() throws SQLException {
         return this.selectDatabaseRows();
     }
 
-    private List<Dashboard> selectDatabaseRows() throws SQLException {
-        String sql = "select * from dashboard where migrated = 0";
+    private List<Notice> selectDatabaseRows() throws SQLException {
+        String sql = "select * from notice where migrated = 0";
         DataSource connection = this.connectionJdbc.getConnection();
         QueryRunner run = new QueryRunner(connection);
-        ResultSetHandler<List<Dashboard>> noticeMapper = new BeanListHandler<>(Dashboard.class);
+        ResultSetHandler<List<Notice>> noticeMapper = new BeanListHandler<>(Notice.class);
         return run.query(sql, noticeMapper);
     }
+
+
 }

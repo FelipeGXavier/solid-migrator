@@ -1,6 +1,8 @@
-package migrator.module.bar.tables;
+package migrator.module.foo.tables;
 
-public class Dashboard {
+import core.contracts.TableRefer;
+
+public class Dashboard implements TableRefer {
 
     private Long id;
     private String context;
@@ -37,6 +39,11 @@ public class Dashboard {
 
     public void setMigrated(boolean migrated) {
         this.migrated = migrated;
+    }
+
+    @Override
+    public String getRefer() {
+        return String.valueOf(this.id);
     }
 }
 

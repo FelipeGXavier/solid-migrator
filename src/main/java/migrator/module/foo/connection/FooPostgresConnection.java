@@ -1,4 +1,4 @@
-package migrator.module.bar.connection;
+package migrator.module.foo.connection;
 
 import config.ConnectionType;
 import config.Env;

@@ -1,0 +1,8 @@
+connections:
+  H2:
+    host: 'home/felipe'
+    database: "test;INIT=RUNSCRIPT FROM 'src/test/java/resources/init.sql';DB_CLOSE_DELAY=-1;"
+    user: ''
+    password: ''
+    driver: ''
+cron: '0/1 * * * * ?'

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Env;
 import core.ElasticConnection;
 import core.IteratorWrapper;
+import core.MalformedDocument;
+import core.contracts.TableRefer;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
@@ -29,12 +31,16 @@ public class Migrator implements Runnable {
     @Override
     public void run() {
         for (IteratorWrapper wrapper : this.iterators) {
-            Iterator<?> iterator = wrapper.createIterator();
+            Iterator<? extends TableRefer> iterator = wrapper.createIterator();
             ObjectMapper objectMapper = new ObjectMapper();
             while (iterator.hasNext()) {
                 try {
-                    String json = objectMapper.writeValueAsString(iterator.next());
-                    this.elasticConnection.put(wrapper.getDestination(), "1", json);
+                    TableRefer table = iterator.next();
+                    if(table.getRefer().isEmpty() || wrapper.getDestination().isEmpty() || wrapper.getOrigin().isEmpty()){
+                        throw new MalformedDocument("Malformed document "+ table.getClass());
+                    }
+                    String json = objectMapper.writeValueAsString(table);
+                    this.elasticConnection.put(wrapper.getDestination(), table.getRefer(), json);
                 }
                 catch(Exception e){
                     e.printStackTrace();

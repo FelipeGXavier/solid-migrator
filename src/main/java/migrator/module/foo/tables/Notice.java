@@ -1,12 +1,14 @@
-package migrator.module.bar.tables;
+package migrator.module.foo.tables;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import core.contracts.TableRefer;
 
 import java.sql.Timestamp;
 
-public class Notice {
+public class Notice implements TableRefer {
 
     @JsonProperty("id")
     private Long id;
@@ -59,5 +61,11 @@ public class Notice {
 
     public void setObject(String object) {
         this.object = object;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getRefer() {
+        return String.valueOf(this.id);
     }
 }
