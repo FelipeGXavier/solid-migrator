@@ -2,7 +2,7 @@ package config;
 
 public enum ConnectionType {
 
-    FOOPOSTGRES("postgresql"), FOOMYSQL("mysql"), BARPOSTGRES("postgresql"), H2("h2:file");
+    FOOPOSTGRES("postgresql"), FOOMYSQL("mysql"), BARPOSTGRES("postgresql"), H2("h2");
 
     private String database;
 

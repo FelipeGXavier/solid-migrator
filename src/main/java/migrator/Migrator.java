@@ -18,13 +18,11 @@ public class Migrator implements Runnable {
 
     @Any
     private Instance<IteratorWrapper> iterators;
-    private Env config;
     private ElasticConnection elasticConnection;
 
     @Inject
     public Migrator(Instance<IteratorWrapper> iterators, Env env, ElasticConnection elasticConnection) {
         this.iterators = iterators;
-        this.config = env;
         this.elasticConnection = elasticConnection;
     }
 

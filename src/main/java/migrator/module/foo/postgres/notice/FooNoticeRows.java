@@ -27,6 +27,7 @@ public class FooNoticeRows implements DatabaseRows {
         this.connectionJdbc = connectionJdbc;
     }
 
+
     public Collection<? extends TableRefer> getDatabaseRows() throws SQLException {
         return this.selectDatabaseRows();
     }

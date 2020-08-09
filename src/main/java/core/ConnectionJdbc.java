@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 @Dependent
 abstract public class ConnectionJdbc implements DatabaseConnection {
 
-    private Configuration configuration;
-    private Connection connection;
+    protected Configuration configuration;
+    protected Connection connection;
 
     @Inject
     public ConnectionJdbc(Env configuration) {
