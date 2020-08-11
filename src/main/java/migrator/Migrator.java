@@ -1,10 +1,9 @@
 package migrator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import config.Env;
 import core.ElasticConnection;
 import core.IteratorWrapper;
-import core.MalformedDocument;
+import core.MalformedDocumentException;
 import core.contracts.TableRefer;
 
 import javax.inject.Inject;
@@ -17,7 +16,7 @@ public class Migrator implements Runnable {
     private ElasticConnection elasticConnection;
 
     @Inject
-    public Migrator(Set<IteratorWrapper> iterators, Env env, ElasticConnection elasticConnection) {
+    public Migrator(Set<IteratorWrapper> iterators, ElasticConnection elasticConnection) {
         this.iterators = iterators;
         this.elasticConnection = elasticConnection;
     }
@@ -28,16 +27,16 @@ public class Migrator implements Runnable {
             Iterator<? extends TableRefer> iterator = wrapper.createIterator();
             ObjectMapper objectMapper = new ObjectMapper();
             while (iterator.hasNext()) {
-                try {
-                    TableRefer table = iterator.next();
-                    if(table.getRefer().isEmpty() || wrapper.getDestination().isEmpty() || wrapper.getOrigin().isEmpty()){
-                        throw new MalformedDocument("Malformed document "+ table.getClass());
-                    }
-                    String json = objectMapper.writeValueAsString(table);
-                    System.out.println(json);
-                    //this.elasticConnection.put(wrapper.getDestination(), table.getRefer(), json);
+                TableRefer table = iterator.next();
+                String origin = wrapper.getOrigin();
+                String destination = wrapper.getDestination();
+                if (table.getRefer().isEmpty() || (origin == null || origin.isEmpty()) || (destination == null || destination.isEmpty())) {
+                    throw new MalformedDocumentException("Malformed document {} " + table.getClass());
                 }
-                catch(Exception e){
+                try {
+                    String json = objectMapper.writeValueAsString(table);
+                    this.elasticConnection.put(wrapper.getDestination(), table.getRefer(), json);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

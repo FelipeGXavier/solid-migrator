@@ -27,45 +27,53 @@ public class Notice implements TableRefer {
         return id;
     }
 
-    public void setId(Long id) {
+    public Notice setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public Notice setCode(String code) {
         this.code = code;
+        return this;
     }
 
     public Timestamp getOpeningDate() {
         return openingDate;
     }
 
-    public void setOpeningDate(Timestamp openingDate) {
+    public Notice setOpeningDate(Timestamp openingDate) {
         this.openingDate = openingDate;
+        return this;
     }
 
     public Timestamp getFinalDate() {
         return finalDate;
     }
 
-    public void setFinalDate(Timestamp finalDate) {
+    public Notice setFinalDate(Timestamp finalDate) {
         this.finalDate = finalDate;
+        return this;
     }
 
     public String getObject() {
         return object;
     }
 
-    public void setObject(String object) {
+    public Notice setObject(String object) {
         this.object = object;
+        return this;
     }
 
     @Override
     @JsonIgnore
     public String getRefer() {
+        if(this.id == null){
+            return "";
+        }
         return String.valueOf(this.id);
     }
 }
