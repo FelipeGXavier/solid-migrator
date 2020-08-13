@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import core.ElasticConnection;
 import core.IteratorWrapper;
 import core.MalformedDocumentException;
+import core.SchedulerMigrator;
 import core.contracts.TableRefer;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ public class Migrator implements Runnable {
 
     private Set<IteratorWrapper> iterators;
     private ElasticConnection elasticConnection;
+    private static final Logger logger = LoggerFactory.getLogger(SchedulerMigrator.class);
 
     @Inject
     public Migrator(Set<IteratorWrapper> iterators, ElasticConnection elasticConnection) {
@@ -33,6 +36,7 @@ public class Migrator implements Runnable {
                 String origin = wrapper.getOrigin();
                 String destination = wrapper.getDestination();
                 if (table.getRefer().isEmpty() || (origin == null || origin.isEmpty()) || (destination == null || destination.isEmpty())) {
+                    logger.error("malformed document for class " + table.getClass());
                     throw new MalformedDocumentException("Malformed document {} " + table.getClass());
                 }
                 try {
@@ -40,6 +44,7 @@ public class Migrator implements Runnable {
                     this.elasticConnection.put(wrapper.getDestination(), table.getRefer(), json);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    logger.error("indexing error {}", Arrays.toString(e.getStackTrace()));
                 }
             }
         }
