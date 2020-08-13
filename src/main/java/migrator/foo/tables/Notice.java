@@ -27,44 +27,64 @@ public class Notice implements TableRefer {
         return id;
     }
 
-    public Notice setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
     public String getCode() {
         return code;
-    }
-
-    public Notice setCode(String code) {
-        this.code = code;
-        return this;
     }
 
     public Timestamp getOpeningDate() {
         return openingDate;
     }
 
-    public Notice setOpeningDate(Timestamp openingDate) {
-        this.openingDate = openingDate;
-        return this;
-    }
-
     public Timestamp getFinalDate() {
         return finalDate;
-    }
-
-    public Notice setFinalDate(Timestamp finalDate) {
-        this.finalDate = finalDate;
-        return this;
     }
 
     public String getObject() {
         return object;
     }
 
-    public Notice setObject(String object) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setOpeningDate(Timestamp openingDate) {
+        this.openingDate = openingDate;
+    }
+
+    public void setFinalDate(Timestamp finalDate) {
+        this.finalDate = finalDate;
+    }
+
+    public void setObject(String object) {
         this.object = object;
+    }
+
+    public Notice withCode(String code) {
+        this.code = code;
+        return this;
+    }
+
+    public Notice withObject(String object) {
+        this.object = object;
+        return this;
+    }
+
+    public Notice withOpeningDate(Timestamp openingDate) {
+        this.openingDate = openingDate;
+        return this;
+    }
+
+    public Notice withFinalDate(Timestamp finalDate) {
+        this.finalDate = finalDate;
+        return this;
+    }
+
+    public Notice withId(Long id) {
+        this.id = id;
         return this;
     }
 
@@ -76,4 +96,6 @@ public class Notice implements TableRefer {
         }
         return String.valueOf(this.id);
     }
+
+
 }

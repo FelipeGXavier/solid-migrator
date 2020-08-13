@@ -40,15 +40,15 @@ public class MigratorTest {
         FooNoticeRows fooNoticeRows = Mockito.mock(FooNoticeRows.class);
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
-                .setCode("1")
-                .setFinalDate(new Timestamp(System.currentTimeMillis()))
-                .setObject("Mock")
-                .setId(1L));
+                .withCode("1")
+                .withFinalDate(new Timestamp(System.currentTimeMillis()))
+                .withObject("Mock")
+                .withId(1L));
         rows.add(new Notice()
-                .setCode("2")
-                .setFinalDate(new Timestamp(System.currentTimeMillis()))
-                .setObject("Mock")
-                .setId(2L));
+                .withCode("2")
+                .withFinalDate(new Timestamp(System.currentTimeMillis()))
+                .withObject("Mock")
+                .withId(2L));
         Mockito.doReturn(rows).when(fooNoticeRows).getDatabaseRows();
         FooNoticeIterator fooNoticeIterator = new FooNoticeIterator(fooNoticeRows);
         Set<IteratorWrapper> iterators = new LinkedHashSet<>();
@@ -62,10 +62,10 @@ public class MigratorTest {
         FooNoticeRows fooNoticeRows = Mockito.mock(FooNoticeRows.class);
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
-                .setCode("2")
-                .setFinalDate(new Timestamp(System.currentTimeMillis()))
-                .setObject("Mock")
-                .setId(null));
+                .withCode("1")
+                .withFinalDate(new Timestamp(System.currentTimeMillis()))
+                .withObject("Mock")
+                .withId(null));
         Mockito.doReturn(rows).when(fooNoticeRows).getDatabaseRows();
         FooNoticeIterator fooNoticeIterator = new FooNoticeIterator(fooNoticeRows);
         Set<IteratorWrapper> iterators = new LinkedHashSet<>();
@@ -81,10 +81,10 @@ public class MigratorTest {
         Mockito.when(iterator.getDestination()).thenReturn("");
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
-                .setCode("2")
-                .setFinalDate(new Timestamp(System.currentTimeMillis()))
-                .setObject("Mock")
-                .setId(1L));
+                .withCode("1")
+                .withFinalDate(new Timestamp(System.currentTimeMillis()))
+                .withObject("Mock")
+                .withId(1L));
         Mockito.doReturn(rows.iterator()).when(iterator).createIterator();
         Set<IteratorWrapper> iterators = new LinkedHashSet<>();
         iterators.add(iterator);
@@ -99,10 +99,10 @@ public class MigratorTest {
         Mockito.when(iterator.getOrigin()).thenReturn("");
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
-                .setCode("2")
-                .setFinalDate(new Timestamp(System.currentTimeMillis()))
-                .setObject("Mock")
-                .setId(1L));
+                .withCode("1")
+                .withFinalDate(new Timestamp(System.currentTimeMillis()))
+                .withObject("Mock")
+                .withId(1L));
         Mockito.doReturn(rows.iterator()).when(iterator).createIterator();
         Set<IteratorWrapper> iterators = new LinkedHashSet<>();
         iterators.add(iterator);

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class FooDashboardIterator extends IteratorWrapper {
 
     @Inject
-    public FooDashboardIterator(@Named("fooDashboardRows") DatabaseRows rows) throws SQLException {
+    public FooDashboardIterator(@Named("FooDashboardRows") DatabaseRows rows) throws SQLException {
         super(rows);
     }
 

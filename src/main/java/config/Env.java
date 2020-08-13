@@ -3,10 +3,12 @@ package config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.google.inject.Singleton;
 
 import java.io.File;
 import java.io.IOException;
 
+@Singleton
 public class Env {
 
     private Configuration configuration;

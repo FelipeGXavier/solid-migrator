@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class FooNoticeIterator extends IteratorWrapper {
 
     @Inject
-    public FooNoticeIterator(@Named("fooNoticeRows") DatabaseRows rows) throws SQLException {
+    public FooNoticeIterator(@Named("FooNoticeRows") DatabaseRows rows) throws SQLException {
         super(rows);
     }
 

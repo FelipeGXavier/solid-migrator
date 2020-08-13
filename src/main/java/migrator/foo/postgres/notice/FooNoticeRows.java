@@ -15,13 +15,13 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-@Named("fooNoticeRows")
+@Named("FooNoticeRows")
 public class FooNoticeRows implements DatabaseRows {
 
     private ConnectionJdbc connectionJdbc;
 
     @Inject
-    public FooNoticeRows(@Named("fooPostgres") ConnectionJdbc connectionJdbc){
+    public FooNoticeRows(@Named("FooPostgres") ConnectionJdbc connectionJdbc){
         this.connectionJdbc = connectionJdbc;
     }
 

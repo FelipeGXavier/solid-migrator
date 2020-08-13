@@ -5,6 +5,8 @@ import core.ElasticConnection;
 import core.IteratorWrapper;
 import core.MalformedDocumentException;
 import core.contracts.TableRefer;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.inject.Inject;
 import java.util.Iterator;
