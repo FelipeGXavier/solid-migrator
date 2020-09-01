@@ -1,3 +1,4 @@
 /migrator.iml
 /target/
 /.idea/
+/src/logs/*
