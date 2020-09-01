@@ -1,4 +1,4 @@
-package migrator.module.foo.tables;
+package migrator.systems.foo.tables;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,0 +1,14 @@
+connections:
+  FOO:
+    host: 'localhost'
+    database: 'foo'
+    user: 'postgres'
+    password: 'postgres'
+    driver: 'org.postgresql.Driver'
+  BAR:
+    host: 'localhost'
+    database: 'bar'
+    user: 'postgres'
+    password: 'postgres'
+    driver: 'org.postgresql.Driver'
+cron: '0 0/1 * 1/1 * ? *'

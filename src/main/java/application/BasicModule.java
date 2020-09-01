@@ -7,11 +7,11 @@ import config.Env;
 import core.ConnectionJdbc;
 import core.IteratorWrapper;
 import core.contracts.DatabaseRows;
-import migrator.module.foo.connection.FooPostgresConnection;
-import migrator.module.foo.postgres.dashboard.FooDashboardIterator;
-import migrator.module.foo.postgres.dashboard.FooDashboardRows;
-import migrator.module.foo.postgres.notice.FooNoticeIterator;
-import migrator.module.foo.postgres.notice.FooNoticeRows;
+import migrator.systems.foo.connection.FooPostgresConnection;
+import migrator.systems.foo.postgres.dashboard.FooDashboardIterator;
+import migrator.systems.foo.postgres.dashboard.FooDashboardRows;
+import migrator.systems.foo.postgres.notice.FooNoticeIterator;
+import migrator.systems.foo.postgres.notice.FooNoticeRows;
 
 import java.io.IOException;
 

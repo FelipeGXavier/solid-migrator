@@ -1,0 +1,115 @@
+125  [main] INFO  core.SchedulerMigrator - Scheduling the migrator job
+152  [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor
+156  [main] INFO  org.quartz.simpl.SimpleThreadPool - Job execution threads will use class loader of thread: main
+168  [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+168  [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.3.2 created.
+169  [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized.
+169  [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+170  [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler 'DefaultQuartzScheduler' initialized from default resource file in Quartz package: 'quartz.properties'
+170  [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.3.2
+170  [main] INFO  org.quartz.core.QuartzScheduler - JobFactory set to: core.GuiceJobFactory@2c9399a4
+170  [main] INFO  org.quartz.core.QuartzScheduler - Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+170  [DefaultQuartzScheduler_QuartzSchedulerThread] DEBUG o.quartz.core.QuartzSchedulerThread - batch acquisition of 0 triggers
+180  [DefaultQuartzScheduler_QuartzSchedulerThread] DEBUG o.quartz.core.QuartzSchedulerThread - batch acquisition of 0 triggers
+23393 [DefaultQuartzScheduler_QuartzSchedulerThread] DEBUG o.quartz.core.QuartzSchedulerThread - batch acquisition of 1 triggers
+46502 [DefaultQuartzScheduler_QuartzSchedulerThread] ERROR org.quartz.core.ErrorLogger - An error occured instantiating job to be executed. job= 'DEFAULT.migrator job'
+org.quartz.SchedulerException: Problem instantiating class 'core.jobs.MigratorJob' - 
+	at org.quartz.core.JobRunShell.initialize(JobRunShell.java:134)
+	at org.quartz.core.QuartzSchedulerThread.run(QuartzSchedulerThread.java:392)
+Caused by: java.lang.UnsupportedOperationException: com.google.inject.ProvisionException: Unable to provision, see the following errors:
+
+1) Error injecting constructor, java.sql.SQLException: Cannot create PoolableConnectionFactory (The connection attempt failed.)
+  at migrator.systems.foo.postgres.notice.FooNoticeIterator.<init>(FooNoticeIterator.java:14)
+  while locating migrator.systems.foo.postgres.notice.FooNoticeIterator
+  while locating core.IteratorWrapper annotated with @com.google.inject.internal.Element(setName=,uniqueId=2, type=MULTIBINDER, keyType=)
+  while locating java.util.Set<core.IteratorWrapper>
+    for the 1st parameter of migrator.Migrator.<init>(Migrator.java:24)
+  while locating migrator.Migrator
+    for field at core.jobs.MigratorJob.migrator(MigratorJob.java:9)
+  while locating core.jobs.MigratorJob
+
+1 error
+	at core.GuiceJobFactory.newJob(GuiceJobFactory.java:29)
+	at org.quartz.core.JobRunShell.initialize(JobRunShell.java:127)
+	... 1 common frames omitted
+Caused by: com.google.inject.ProvisionException: Unable to provision, see the following errors:
+
+1) Error injecting constructor, java.sql.SQLException: Cannot create PoolableConnectionFactory (The connection attempt failed.)
+  at migrator.systems.foo.postgres.notice.FooNoticeIterator.<init>(FooNoticeIterator.java:14)
+  while locating migrator.systems.foo.postgres.notice.FooNoticeIterator
+  while locating core.IteratorWrapper annotated with @com.google.inject.internal.Element(setName=,uniqueId=2, type=MULTIBINDER, keyType=)
+  while locating java.util.Set<core.IteratorWrapper>
+    for the 1st parameter of migrator.Migrator.<init>(Migrator.java:24)
+  while locating migrator.Migrator
+    for field at core.jobs.MigratorJob.migrator(MigratorJob.java:9)
+  while locating core.jobs.MigratorJob
+
+1 error
+	at com.google.inject.internal.InternalProvisionException.toProvisionException(InternalProvisionException.java:226)
+	at com.google.inject.internal.InjectorImpl$1.get(InjectorImpl.java:1097)
+	at com.google.inject.internal.InjectorImpl.getInstance(InjectorImpl.java:1131)
+	at core.GuiceJobFactory.newJob(GuiceJobFactory.java:26)
+	... 2 common frames omitted
+Caused by: java.sql.SQLException: Cannot create PoolableConnectionFactory (The connection attempt failed.)
+	at org.apache.commons.dbcp2.BasicDataSource.createPoolableConnectionFactory(BasicDataSource.java:669)
+	at org.apache.commons.dbcp2.BasicDataSource.createDataSource(BasicDataSource.java:544)
+	at org.apache.commons.dbcp2.BasicDataSource.getConnection(BasicDataSource.java:753)
+	at org.apache.commons.dbutils.AbstractQueryRunner.prepareConnection(AbstractQueryRunner.java:319)
+	at org.apache.commons.dbutils.QueryRunner.query(QueryRunner.java:345)
+	at migrator.systems.foo.postgres.notice.FooNoticeRows.selectDatabaseRows(FooNoticeRows.java:47)
+	at migrator.systems.foo.postgres.notice.FooNoticeRows.getDatabaseRows(FooNoticeRows.java:31)
+	at core.IteratorWrapper.<init>(IteratorWrapper.java:16)
+	at migrator.systems.foo.postgres.notice.FooNoticeIterator.<init>(FooNoticeIterator.java:14)
+	at migrator.systems.foo.postgres.notice.FooNoticeIterator$$FastClassByGuice$$120fa0a8.newInstance(<generated>)
+	at com.google.inject.internal.DefaultConstructionProxyFactory$FastClassProxy.newInstance(DefaultConstructionProxyFactory.java:89)
+	at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:114)
+	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)
+	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:306)
+	at com.google.inject.internal.FactoryProxy.get(FactoryProxy.java:62)
+	at com.google.inject.internal.SingleParameterInjector.inject(SingleParameterInjector.java:42)
+	at com.google.inject.internal.RealMultibinder$RealMultibinderProvider.doProvision(RealMultibinder.java:198)
+	at com.google.inject.internal.RealMultibinder$RealMultibinderProvider.doProvision(RealMultibinder.java:151)
+	at com.google.inject.internal.InternalProviderInstanceBindingImpl$Factory.get(InternalProviderInstanceBindingImpl.java:113)
+	at com.google.inject.internal.SingleParameterInjector.inject(SingleParameterInjector.java:42)
+	at com.google.inject.internal.SingleParameterInjector.getAll(SingleParameterInjector.java:65)
+	at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:113)
+	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)
+	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:306)
+	at com.google.inject.internal.SingleFieldInjector.inject(SingleFieldInjector.java:52)
+	at com.google.inject.internal.MembersInjectorImpl.injectMembers(MembersInjectorImpl.java:147)
+	at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:124)
+	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)
+	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:306)
+	at com.google.inject.internal.InjectorImpl$1.get(InjectorImpl.java:1094)
+	... 4 common frames omitted
+Caused by: org.postgresql.util.PSQLException: The connection attempt failed.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:297)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:49)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:217)
+	at org.postgresql.Driver.makeConnection(Driver.java:458)
+	at org.postgresql.Driver.connect(Driver.java:260)
+	at org.apache.commons.dbcp2.DriverConnectionFactory.createConnection(DriverConnectionFactory.java:55)
+	at org.apache.commons.dbcp2.PoolableConnectionFactory.makeObject(PoolableConnectionFactory.java:355)
+	at org.apache.commons.dbcp2.BasicDataSource.validateConnectionFactory(BasicDataSource.java:115)
+	at org.apache.commons.dbcp2.BasicDataSource.createPoolableConnectionFactory(BasicDataSource.java:665)
+	... 33 common frames omitted
+Caused by: java.net.UnknownHostException: database
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:184)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:607)
+	at org.postgresql.core.PGStream.<init>(PGStream.java:81)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:93)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:197)
+	... 41 common frames omitted
+46503 [DefaultQuartzScheduler_QuartzSchedulerThread] INFO  org.quartz.simpl.RAMJobStore - All triggers of Job DEFAULT.migrator job set to ERROR state.
+46503 [DefaultQuartzScheduler_QuartzSchedulerThread] DEBUG o.quartz.core.QuartzSchedulerThread - batch acquisition of 0 triggers
+74763 [DefaultQuartzScheduler_QuartzSchedulerThread] DEBUG o.quartz.core.QuartzSchedulerThread - batch acquisition of 0 triggers
+103730 [DefaultQuartzScheduler_QuartzSchedulerThread] DEBUG o.quartz.core.QuartzSchedulerThread - batch acquisition of 0 triggers
+133268 [DefaultQuartzScheduler_QuartzSchedulerThread] DEBUG o.quartz.core.QuartzSchedulerThread - batch acquisition of 0 triggers

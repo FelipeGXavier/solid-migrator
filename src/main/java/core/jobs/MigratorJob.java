@@ -1,4 +1,4 @@
-package core;
+package core.jobs;
 
 import com.google.inject.Inject;
 import migrator.Migrator;

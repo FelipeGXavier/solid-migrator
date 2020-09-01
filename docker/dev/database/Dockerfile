@@ -5,3 +5,5 @@ ENV POSTGRES_USER 'postgres'
 ENV POSTGRES_DB 'foo'
 
 COPY init.sql /docker-entrypoint-initdb.d/init.sql
+
+EXPOSE 5432

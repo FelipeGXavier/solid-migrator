@@ -1,4 +1,4 @@
-package migrator.module.foo.connection;
+package migrator.systems.foo.connection;
 
 import config.ConnectionType;
 import config.Env;
@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 
-@Named("fooPostgres")
+@Named("FooPostgres")
 public class FooPostgresConnection extends ConnectionJdbc {
 
     @Inject
@@ -18,6 +18,6 @@ public class FooPostgresConnection extends ConnectionJdbc {
 
     @Override
     public ConnectionType getType() {
-        return ConnectionType.FOOPOSTGRES;
+        return ConnectionType.FOO;
     }
 }

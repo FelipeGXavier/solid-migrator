@@ -1,0 +1,1 @@
+127  [main] INFO  core.SchedulerMigrator - updated row with refer 1 for class migrator.systems.foo.tables.Notice

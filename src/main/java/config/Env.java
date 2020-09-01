@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Env {
 
     private Configuration configuration;
-    private static final String PATH = "src/main/resources/config.yaml";
+    private static final String PATH = "src/main/resources/dev.yaml";
 
     public Env() throws IOException {
         this.configuration = this.getEnvFromFile(PATH);

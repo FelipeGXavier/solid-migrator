@@ -1,7 +1,7 @@
 package migrator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import core.ElasticConnection;
+import core.ElasticConnectionImpl;
 import core.IteratorWrapper;
 import core.MalformedDocumentException;
 import core.SchedulerMigrator;
@@ -17,11 +17,11 @@ import java.util.Set;
 public class Migrator implements Runnable {
 
     private Set<IteratorWrapper> iterators;
-    private ElasticConnection elasticConnection;
+    private ElasticConnectionImpl elasticConnection;
     private static final Logger logger = LoggerFactory.getLogger(SchedulerMigrator.class);
 
     @Inject
-    public Migrator(Set<IteratorWrapper> iterators, ElasticConnection elasticConnection) {
+    public Migrator(Set<IteratorWrapper> iterators, ElasticConnectionImpl elasticConnection) {
         this.iterators = iterators;
         this.elasticConnection = elasticConnection;
     }
@@ -42,8 +42,9 @@ public class Migrator implements Runnable {
                 try {
                     String json = objectMapper.writeValueAsString(table);
                     this.elasticConnection.put(wrapper.getDestination(), table.getRefer(), json);
+                    wrapper.updateRow(table);
+                    logger.info("updated row with refer " + table.getRefer() + " for " + table.getClass());
                 } catch (Exception e) {
-                    e.printStackTrace();
                     logger.error("indexing error {}", Arrays.toString(e.getStackTrace()));
                 }
             }

@@ -1,0 +1,5 @@
+224  [main] ERROR core.SchedulerMigrator - malformed document for class class migrator.systems.foo.tables.Notice
+239  [main] ERROR core.SchedulerMigrator - malformed document for class class migrator.systems.foo.tables.Notice
+258  [main] ERROR core.SchedulerMigrator - malformed document for class class migrator.systems.foo.tables.Notice
+300  [main] INFO  core.SchedulerMigrator - updated row with refer 1 for class migrator.systems.foo.tables.Notice
+300  [main] INFO  core.SchedulerMigrator - updated row with refer 2 for class migrator.systems.foo.tables.Notice

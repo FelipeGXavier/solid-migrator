@@ -1,12 +1,12 @@
 package unit;
 
-import core.ElasticConnection;
+import core.ElasticConnectionImpl;
 import core.IteratorWrapper;
 import core.MalformedDocumentException;
 import migrator.Migrator;
-import migrator.module.foo.postgres.notice.FooNoticeIterator;
-import migrator.module.foo.postgres.notice.FooNoticeRows;
-import migrator.module.foo.tables.Notice;
+import migrator.systems.foo.postgres.notice.FooNoticeIterator;
+import migrator.systems.foo.postgres.notice.FooNoticeRows;
+import migrator.systems.foo.tables.Notice;
 import org.junit.jupiter.api.Assertions;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,22 +21,21 @@ import java.util.*;
 
 public class MigratorTest {
 
-    private ElasticConnection elasticConnection;
-
+    private ElasticConnectionImpl elasticConnection;
 
     public MigratorTest(){
-        this.elasticConnection = Mockito.mock(ElasticConnection.class);
+        this.elasticConnection = Mockito.mock(ElasticConnectionImpl.class);
     }
 
     @Test
-    public void givenEmptyMigratorShouldNotMigrateAnything() throws IOException {
+    public void givenEmptyMigratorShouldMigrateAnything() throws IOException {
         Migrator migrator = new Migrator(new LinkedHashSet<>(), this.elasticConnection);
         migrator.run();
         Mockito.verify(this.elasticConnection, Mockito.times(0)).put(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
     }
 
     @Test
-    public void givenValidIteratorMigratorShouldMigrate() throws IOException, SQLException {
+    public void givenValidIteratorMigratorShouldMigrateToElastic() throws IOException, SQLException {
         FooNoticeRows fooNoticeRows = Mockito.mock(FooNoticeRows.class);
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()

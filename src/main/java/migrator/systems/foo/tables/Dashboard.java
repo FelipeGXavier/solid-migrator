@@ -1,13 +1,16 @@
-package migrator.module.foo.tables;
+package migrator.systems.foo.tables;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import core.contracts.TableRefer;
 
 public class Dashboard implements TableRefer {
 
+    @JsonProperty("id")
     private Long id;
+    @JsonProperty("context")
     private String context;
+    @JsonProperty("extra")
     private String extra;
-    private boolean migrated;
 
     public Long getId() {
         return id;
@@ -31,14 +34,6 @@ public class Dashboard implements TableRefer {
 
     public void setExtra(String extra) {
         this.extra = extra;
-    }
-
-    public boolean isMigrated() {
-        return migrated;
-    }
-
-    public void setMigrated(boolean migrated) {
-        this.migrated = migrated;
     }
 
     @Override

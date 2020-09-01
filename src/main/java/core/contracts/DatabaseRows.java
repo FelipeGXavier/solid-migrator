@@ -6,4 +6,5 @@ import java.util.Collection;
 public interface DatabaseRows {
 
     Collection<? extends TableRefer> getDatabaseRows() throws SQLException;
+    void updateRow(TableRefer tableRefer) throws SQLException;
 }

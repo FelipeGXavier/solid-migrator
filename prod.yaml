@@ -1,5 +1,5 @@
 connections:
-  FOOPOSTGRES:
+  FOO:
     host: 'localhost'
     database: 'foo'
     user: 'postgres'

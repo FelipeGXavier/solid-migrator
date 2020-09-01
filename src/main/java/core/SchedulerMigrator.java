@@ -1,8 +1,8 @@
 package core;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import config.Env;
+import core.jobs.MigratorJob;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
