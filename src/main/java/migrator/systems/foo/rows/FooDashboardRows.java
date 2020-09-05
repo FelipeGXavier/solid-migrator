@@ -1,8 +1,8 @@
-package migrator.systems.foo.postgres.dashboard;
+package migrator.systems.foo.rows;
 
 import core.ConnectionJdbc;
-import core.contracts.DatabaseRows;
-import core.contracts.TableRefer;
+import core.contracts.IDatabaseHandler;
+import core.contracts.ITableReference;
 import migrator.systems.foo.tables.Dashboard;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Named("FooDashboardRows")
-public class FooDashboardRows implements DatabaseRows {
+public class FooDashboardRows implements IDatabaseHandler {
 
     private ConnectionJdbc connectionJdbc;
 
@@ -26,17 +26,27 @@ public class FooDashboardRows implements DatabaseRows {
         this.connectionJdbc = connectionJdbc;
     }
 
-    public Collection<? extends TableRefer> getDatabaseRows() throws SQLException {
+    public Collection<? extends ITableReference> getDatabaseRows() throws SQLException {
         return this.selectDatabaseRows();
     }
 
     @Override
-    public void updateRow(TableRefer tableRefer) throws SQLException {
+    public void updateRow(ITableReference tableRefer) throws SQLException {
         final String sql = "update dashboard set migrated = 1 where id = ?";
         DataSource connection = this.connectionJdbc.getConnection();
         PreparedStatement ps = connection.getConnection().prepareStatement(sql);
         ps.setLong(1, Long.parseLong(tableRefer.getRefer()));
         ps.executeUpdate();
+    }
+
+    @Override
+    public String getOriginTable() {
+        return "dashboard";
+    }
+
+    @Override
+    public String getDestinationTable() {
+        return "dashboard";
     }
 
     private List<Dashboard> selectDatabaseRows() throws SQLException {

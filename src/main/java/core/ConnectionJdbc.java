@@ -4,13 +4,13 @@ import config.Configuration;
 import config.Connection;
 import config.ConnectionType;
 import config.Env;
-import core.contracts.DatabaseConnection;
+import core.contracts.IDatabaseConnection;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-abstract public class ConnectionJdbc implements DatabaseConnection {
+abstract public class ConnectionJdbc implements IDatabaseConnection {
 
     protected Configuration configuration;
     protected Connection connection;

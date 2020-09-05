@@ -1,9 +1,9 @@
 package migrator.systems.foo.tables;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import core.contracts.TableRefer;
+import core.contracts.ITableReference;
 
-public class Dashboard implements TableRefer {
+public class Dashboard implements ITableReference {
 
     @JsonProperty("id")
     private Long id;

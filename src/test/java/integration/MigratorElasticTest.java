@@ -2,21 +2,15 @@ package integration;
 
 import config.Env;
 import core.ConnectionJdbc;
-import core.IteratorWrapper;
-import core.contracts.DatabaseRows;
-import core.contracts.TableRefer;
+import core.contracts.IDatabaseHandler;
 import migrator.Migrator;
-import migrator.systems.foo.postgres.notice.FooNoticeIterator;
-import migrator.systems.foo.postgres.notice.FooNoticeRows;
-import migrator.systems.foo.tables.Notice;
+import migrator.systems.foo.rows.FooNoticeRows;
 import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import resources.helpers.ElasticSearchTestSetup;
 import resources.helpers.InMemoryConnection;
 
@@ -54,10 +48,9 @@ public class MigratorElasticTest extends ElasticSearchTestSetup {
         rs.next();
         String id = rs.getString("id");
         FooNoticeRows fooNoticeRows = new FooNoticeRows(this.inMemoryDatabase);
-        FooNoticeIterator fooNoticeIterator = new FooNoticeIterator(fooNoticeRows);
-        Set<IteratorWrapper> iterators = new LinkedHashSet<>();
-        iterators.add(fooNoticeIterator);
-        Migrator migrator = new Migrator(iterators, elasticConnection);
+        Set<IDatabaseHandler> databaseHandlers = new LinkedHashSet<>();
+        databaseHandlers.add(fooNoticeRows);
+        Migrator migrator = new Migrator(databaseHandlers, elasticConnection);
         migrator.run();
         Assertions.assertTrue(elasticConnection.getClient().get(new GetRequest("notice", id), RequestOptions.DEFAULT).isExists());
     }
