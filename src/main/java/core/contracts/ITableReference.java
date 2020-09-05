@@ -1,6 +1,6 @@
 package core.contracts;
 
-public interface TableRefer {
+public interface ITableReference {
 
     String getRefer();
 }

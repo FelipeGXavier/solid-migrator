@@ -1,8 +1,8 @@
-package migrator.systems.foo.postgres.notice;
+package migrator.systems.foo.rows;
 
 import core.ConnectionJdbc;
-import core.contracts.DatabaseRows;
-import core.contracts.TableRefer;
+import core.contracts.IDatabaseHandler;
+import core.contracts.ITableReference;
 import migrator.systems.foo.tables.Notice;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Named("FooNoticeRows")
-public class FooNoticeRows implements DatabaseRows {
+public class FooNoticeRows implements IDatabaseHandler {
 
     private ConnectionJdbc connectionJdbc;
 
@@ -27,16 +27,26 @@ public class FooNoticeRows implements DatabaseRows {
     }
 
 
-    public Collection<? extends TableRefer> getDatabaseRows() throws SQLException {
+    public Collection<? extends ITableReference> getDatabaseRows() throws SQLException {
         return this.selectDatabaseRows();
     }
 
-    public void updateRow(TableRefer notice) throws SQLException {
+    public void updateRow(ITableReference notice) throws SQLException {
         final String sql = "update notice set migrated = 1 where id = ?";
         DataSource connection = this.connectionJdbc.getConnection();
         PreparedStatement ps = connection.getConnection().prepareStatement(sql);
         ps.setLong(1, Long.parseLong(notice.getRefer()));
         ps.executeUpdate();
+    }
+
+    @Override
+    public String getOriginTable() {
+        return "notice";
+    }
+
+    @Override
+    public String getDestinationTable() {
+        return "notice";
     }
 
     private List<Notice> selectDatabaseRows() throws SQLException {

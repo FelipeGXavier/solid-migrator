@@ -3,11 +3,9 @@ package integration;
 import config.Env;
 import core.ConnectionJdbc;
 import core.ElasticConnectionImpl;
-import core.IteratorWrapper;
-import core.contracts.DatabaseRows;
+import core.contracts.IDatabaseHandler;
 import migrator.Migrator;
-import migrator.systems.foo.postgres.notice.FooNoticeIterator;
-import migrator.systems.foo.postgres.notice.FooNoticeRows;
+import migrator.systems.foo.rows.FooNoticeRows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -47,7 +45,7 @@ public class DatabaseRowsTest {
                 "(null, '2120/2020', '2020-10-10 00:00:00', '2020-10-10 00:00:00', 'Teste 2', 0)," +
                 "(null, '2220/2020', '2020-10-10 00:00:00', '2020-10-10 00:00:00', 'Teste 3', 1)");
         preparedStatement.execute();
-        DatabaseRows noticeRows = new FooNoticeRows(this.inMemoryDatabase);
+        IDatabaseHandler noticeRows = new FooNoticeRows(this.inMemoryDatabase);
         assertEquals(noticeRows.getDatabaseRows().size(), 2);
     }
 
@@ -56,12 +54,11 @@ public class DatabaseRowsTest {
         Connection connection = this.inMemoryDatabase.getConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("insert into notice values (null, '2020/2020', '2020-10-10 00:00:00', '2020-10-10 00:00:00', 'Teste', 0)");
         preparedStatement.executeUpdate();
-        DatabaseRows noticeRows = new FooNoticeRows(this.inMemoryDatabase);
-        FooNoticeIterator fooNoticeIterator = new FooNoticeIterator(noticeRows);
-        Set<IteratorWrapper> iterators = new LinkedHashSet<>();
-        iterators.add(fooNoticeIterator);
+        IDatabaseHandler databaseHandlers = new FooNoticeRows(this.inMemoryDatabase);
+        Set<IDatabaseHandler> instances = new LinkedHashSet<>();
+        instances.add(databaseHandlers);
         ElasticConnectionImpl elasticConnection = Mockito.mock(ElasticConnectionImpl.class);
-        Migrator migrator = new Migrator(iterators, elasticConnection);
+        Migrator migrator = new Migrator(instances, elasticConnection);
         migrator.run();
         preparedStatement = connection.prepareStatement("select * from notice where migrated = 0");
         ResultSet rs = preparedStatement.executeQuery();

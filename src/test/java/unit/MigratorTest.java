@@ -1,11 +1,10 @@
 package unit;
 
 import core.ElasticConnectionImpl;
-import core.IteratorWrapper;
 import core.MalformedDocumentException;
+import core.contracts.IDatabaseHandler;
 import migrator.Migrator;
-import migrator.systems.foo.postgres.notice.FooNoticeIterator;
-import migrator.systems.foo.postgres.notice.FooNoticeRows;
+import migrator.systems.foo.rows.FooNoticeRows;
 import migrator.systems.foo.tables.Notice;
 import org.junit.jupiter.api.Assertions;
 
@@ -28,15 +27,17 @@ public class MigratorTest {
     }
 
     @Test
-    public void givenEmptyMigratorShouldMigrateAnything() throws IOException {
+    public void emptyMigratorShouldMigrateAnything() throws IOException {
         Migrator migrator = new Migrator(new LinkedHashSet<>(), this.elasticConnection);
         migrator.run();
         Mockito.verify(this.elasticConnection, Mockito.times(0)).put(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
     }
 
     @Test
-    public void givenValidIteratorMigratorShouldMigrateToElastic() throws IOException, SQLException {
+    public void validDatabaseHandlerShouldMigrateToElastic() throws IOException, SQLException {
         FooNoticeRows fooNoticeRows = Mockito.mock(FooNoticeRows.class);
+        Mockito.when(fooNoticeRows.getOriginTable()).thenReturn("mock");
+        Mockito.when(fooNoticeRows.getDestinationTable()).thenReturn("mock");
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
                 .withCode("1")
@@ -49,16 +50,17 @@ public class MigratorTest {
                 .withObject("Mock")
                 .withId(2L));
         Mockito.doReturn(rows).when(fooNoticeRows).getDatabaseRows();
-        FooNoticeIterator fooNoticeIterator = new FooNoticeIterator(fooNoticeRows);
-        Set<IteratorWrapper> iterators = new LinkedHashSet<>();
-        iterators.add(fooNoticeIterator);
-        Assertions.assertDoesNotThrow(() -> new Migrator(iterators, this.elasticConnection).run());
+        Set<IDatabaseHandler> instances = new LinkedHashSet<>();
+        instances.add(fooNoticeRows);
+        Assertions.assertDoesNotThrow(() -> new Migrator(instances, this.elasticConnection).run());
         Mockito.verify(this.elasticConnection, Mockito.times(2)).put(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
     }
 
     @Test
-    public void givenDocumentWithInvalidReferenceMustThrowMalformedDocumentException() throws SQLException {
+    public void documentWithInvalidReferenceMustThrowMalformedDocumentException() throws SQLException {
         FooNoticeRows fooNoticeRows = Mockito.mock(FooNoticeRows.class);
+        Mockito.when(fooNoticeRows.getOriginTable()).thenReturn("mock");
+        Mockito.when(fooNoticeRows.getDestinationTable()).thenReturn("mock");
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
                 .withCode("1")
@@ -66,46 +68,47 @@ public class MigratorTest {
                 .withObject("Mock")
                 .withId(null));
         Mockito.doReturn(rows).when(fooNoticeRows).getDatabaseRows();
-        FooNoticeIterator fooNoticeIterator = new FooNoticeIterator(fooNoticeRows);
-        Set<IteratorWrapper> iterators = new LinkedHashSet<>();
-        iterators.add(fooNoticeIterator);
-        Migrator migrator = new Migrator(iterators, this.elasticConnection);
+        Set<IDatabaseHandler> instances = new LinkedHashSet<>();
+        instances.add(fooNoticeRows);
+        Migrator migrator = new Migrator(instances, this.elasticConnection);
         MalformedDocumentException exception = assertThrows(MalformedDocumentException.class, migrator::run);
         Assertions.assertTrue(exception.getMessage().contains("Malformed document"));
     }
 
     @Test
-    public void givenEmptyDestinationForIteratorMustThrowMalformedDocumentException() throws SQLException {
-        FooNoticeIterator iterator = Mockito.mock(FooNoticeIterator.class);
-        Mockito.when(iterator.getDestination()).thenReturn("");
+    public void emptyDestinationForDatabaseHandlerMustThrowMalformedDocumentException() throws SQLException {
+        IDatabaseHandler mockRows = Mockito.mock(IDatabaseHandler.class);
+        Mockito.when(mockRows.getDestinationTable()).thenReturn("");
+        Mockito.when(mockRows.getOriginTable()).thenReturn("mock");
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
                 .withCode("1")
                 .withFinalDate(new Timestamp(System.currentTimeMillis()))
                 .withObject("Mock")
                 .withId(1L));
-        Mockito.doReturn(rows.iterator()).when(iterator).createIterator();
-        Set<IteratorWrapper> iterators = new LinkedHashSet<>();
-        iterators.add(iterator);
-        Migrator migrator = new Migrator(iterators, this.elasticConnection);
+        Mockito.doReturn(rows).when(mockRows).getDatabaseRows();
+        Set<IDatabaseHandler> instances = new LinkedHashSet<>();
+        instances.add(mockRows);
+        Migrator migrator = new Migrator(instances, this.elasticConnection);
         MalformedDocumentException exception = assertThrows(MalformedDocumentException.class, migrator::run);
         Assertions.assertTrue(exception.getMessage().contains("Malformed document"));
     }
 
     @Test
-    public void givenEmptyOriginForIteratorMustThrowMalformedDocumentException() throws SQLException {
-        FooNoticeIterator iterator = Mockito.mock(FooNoticeIterator.class);
-        Mockito.when(iterator.getOrigin()).thenReturn("");
+    public void emptyOriginForDatabaseHandlerMustThrowMalformedDocumentException() throws SQLException {
+        IDatabaseHandler mockRows = Mockito.mock(IDatabaseHandler.class);
+        Mockito.when(mockRows.getDestinationTable()).thenReturn("mock");
+        Mockito.when(mockRows.getOriginTable()).thenReturn("");
         Set<Notice> rows = new LinkedHashSet<>();
         rows.add(new Notice()
                 .withCode("1")
                 .withFinalDate(new Timestamp(System.currentTimeMillis()))
                 .withObject("Mock")
                 .withId(1L));
-        Mockito.doReturn(rows.iterator()).when(iterator).createIterator();
-        Set<IteratorWrapper> iterators = new LinkedHashSet<>();
-        iterators.add(iterator);
-        Migrator migrator = new Migrator(iterators, this.elasticConnection);
+        Mockito.doReturn(rows).when(mockRows).getDatabaseRows();
+        Set<IDatabaseHandler> instances = new LinkedHashSet<>();
+        instances.add(mockRows);
+        Migrator migrator = new Migrator(instances, this.elasticConnection);
         MalformedDocumentException exception = assertThrows(MalformedDocumentException.class, migrator::run);
         Assertions.assertTrue(exception.getMessage().contains("Malformed document"));
     }

@@ -4,11 +4,11 @@ package migrator.systems.foo.tables;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import core.contracts.TableRefer;
+import core.contracts.ITableReference;
 
 import java.sql.Timestamp;
 
-public class Notice implements TableRefer {
+public class Notice implements ITableReference {
 
     @JsonProperty("id")
     private Long id;
