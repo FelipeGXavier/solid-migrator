@@ -27,14 +27,14 @@ public class MigratorTest {
     }
 
     @Test
-    public void emptyMigratorShouldMigrateAnything() throws IOException {
+    public void emptyDatabaseHandlerShouldNotRunMigrator() throws IOException {
         Migrator migrator = new Migrator(new LinkedHashSet<>(), this.elasticConnection);
         migrator.run();
         Mockito.verify(this.elasticConnection, Mockito.times(0)).put(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
     }
 
     @Test
-    public void validDatabaseHandlerShouldMigrateToElastic() throws IOException, SQLException {
+    public void databaseHandlerShouldRunMigrator() throws IOException, SQLException {
         FooNoticeRows fooNoticeRows = Mockito.mock(FooNoticeRows.class);
         Mockito.when(fooNoticeRows.getOriginTable()).thenReturn("mock");
         Mockito.when(fooNoticeRows.getDestinationTable()).thenReturn("mock");
@@ -57,7 +57,7 @@ public class MigratorTest {
     }
 
     @Test
-    public void documentWithInvalidReferenceMustThrowMalformedDocumentException() throws SQLException {
+    public void invalidReferenceMustThrowMalformedDocumentException() throws SQLException {
         FooNoticeRows fooNoticeRows = Mockito.mock(FooNoticeRows.class);
         Mockito.when(fooNoticeRows.getOriginTable()).thenReturn("mock");
         Mockito.when(fooNoticeRows.getDestinationTable()).thenReturn("mock");
@@ -76,7 +76,7 @@ public class MigratorTest {
     }
 
     @Test
-    public void emptyDestinationForDatabaseHandlerMustThrowMalformedDocumentException() throws SQLException {
+    public void emptyDestinationMustThrowMalformedDocumentException() throws SQLException {
         IDatabaseHandler mockRows = Mockito.mock(IDatabaseHandler.class);
         Mockito.when(mockRows.getDestinationTable()).thenReturn("");
         Mockito.when(mockRows.getOriginTable()).thenReturn("mock");
@@ -95,7 +95,7 @@ public class MigratorTest {
     }
 
     @Test
-    public void emptyOriginForDatabaseHandlerMustThrowMalformedDocumentException() throws SQLException {
+    public void emptyOriginMustThrowMalformedDocumentException() throws SQLException {
         IDatabaseHandler mockRows = Mockito.mock(IDatabaseHandler.class);
         Mockito.when(mockRows.getDestinationTable()).thenReturn("mock");
         Mockito.when(mockRows.getOriginTable()).thenReturn("");

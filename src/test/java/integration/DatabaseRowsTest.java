@@ -38,7 +38,7 @@ public class DatabaseRowsTest {
     }
 
     @Test
-    public void databaseWithRowsShouldNotReturnEmptyList() throws SQLException {
+    public void databaseWithRowsToMigrateShouldNotReturnEmptyList() throws SQLException {
         Connection connection = this.inMemoryDatabase.getConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("insert into notice values " +
                 "(null, '2020/2020', '2020-10-10 00:00:00', '2020-10-10 00:00:00', 'Teste', 0), " +
@@ -50,7 +50,7 @@ public class DatabaseRowsTest {
     }
 
     @Test
-    public void afterInsertElasticSearchMustUpdateTableInDatabase() throws SQLException {
+    public void afterInsertElasticSearchMustUpdateTable() throws SQLException {
         Connection connection = this.inMemoryDatabase.getConnection().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("insert into notice values (null, '2020/2020', '2020-10-10 00:00:00', '2020-10-10 00:00:00', 'Teste', 0)");
         preparedStatement.executeUpdate();
